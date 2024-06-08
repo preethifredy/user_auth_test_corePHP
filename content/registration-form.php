@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $role = $_POST['role'];
     $status='1';
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         die("Invalid email format");
@@ -15,11 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $conn->prepare("INSERT INTO user (username, email, password,status) VALUES (?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO user (username, email, password,role,status) VALUES (?, ?, ?, ?, ?)");
     if (!$stmt) {
         die("Prepare failed: " . $conn->error);
     }
-    $stmt->bind_param("ssss", $username, $email, $hashed_password,$status);
+    $stmt->bind_param("sssss", $username, $email, $hashed_password,$role,$status);
     if ($stmt->execute()) {
         echo "Registration successful!";
     } else {
@@ -34,6 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <form action="" method="post" id="frm" name="frm">
     Username: <input type="text" name="username" id="username" required><br>
     Email: <input type="email" name="email" id="email" required><br>
+    Role: <select name="role" id="role">
+            <option value="1">Admin</option>
+            <option value="2">User</option>            
+        </select><br>
     Password: <input type="password" name="password" id="password" required><br>
     Confirm Password: <input type="password" name="c_password"  id="c_password" required><br>
     <input type="button" name="register" value="Register" onclick="validate()">

@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!$stmt) {
         die("Prepare failed: " . $conn->error);
     }
-    $stmt->bind_param("sssss", $username, $email, $hashed_password,$role,$status);
+    $stmt->bind_param("sssii", $username, $email, $hashed_password,$role,$status);
     if ($stmt->execute()) {
         echo "Registration successful!";
     } else {

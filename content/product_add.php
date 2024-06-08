@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (!$stmt) {
       die("Prepare failed: " . $conn->error);
   }
-  $stmt->bind_param("sdd", $name, $price,$status);
+  $stmt->bind_param("sdi", $name, $price,$status);
   if ($stmt->execute()) {
       header("Location: products.php");
   } else {
